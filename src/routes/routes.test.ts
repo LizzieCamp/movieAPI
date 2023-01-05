@@ -1,13 +1,16 @@
 import request from "supertest";
 import { app } from "../app";
 import mongoose from "mongoose";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 describe("GET endpoints", () => {
-  const database =
-    "mongodb+srv://user:V3fRGA8i7sk4nfMV@cluster1.bvmnnnc.mongodb.net/movies";
+  const database = process.env.DATABASE_CONNECTION;
 
   beforeAll(() => {
-    mongoose.connect(database);
+    database
+      ? mongoose.connect(database)
+      : console.log("missing database connection");
   });
 
   afterAll((done) => {
